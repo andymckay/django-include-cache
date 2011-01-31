@@ -1,11 +1,10 @@
-from setuptools import setup, find_packages
-import os
+from setuptools import setup
 
 version = '0.1'
 
 setup(name='django-include-cache',
       version=version,
-      description="Cronjob helper for Django",
+      description="Include Cache for Django",
       long_description=open("readme.rst").read() + "\n",
       classifiers=[
         'Programming Language :: Python',

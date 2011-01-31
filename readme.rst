@@ -1,32 +1,32 @@
-django-cronjobs
+django-include-cache
 ------------------
 
-This provide a @cron decorator to mark cronjob methods and
-a namespace for managei.
+If you've got a large number of includes in your Django urls.py, then there
+can be a performance hit in accessing urls at the bottom of the includes as
+Django searches through multiple url patterns to find the match.
+
+This monkey patches URLResolvers so that when the right pattern is found we
+cache that pattern and move it to the top of the url pattern stack so it will
+be found quicker.
+
+In completely unscientific tests on one site, before:
+
+Requests per second:    438.49 [#/sec] (mean)
+
+After:
+
+Requests per second:    585.39 [#/sec] (mean)
 
 Installation
 =================
 
-::
-  pip install cronjobs
+1. Install from pypi::
 
-Add 'cronjobs' to your INSTALLED_APPS.
+   pip install django-include-cache
 
-Usage
-=================
+2. In manage.py (or your wsgi script) add::
 
-Methods can be added to anywhere, but if you put them in a file called cron.py,
-they will be automatically imported.
+    import include_cache
+    include_cache.patch()
 
-Register you method by decorating it with @register for example::
-  from cronjobs import register
-  @register
-  def some_function():
-      pass
-
-You can then run::
-  manage.py cron some_function
-
-
-License: Mozilla Public License
-Authors:  originally by Jeff Balogh, packaged and broken by Andy McKay
+Author: Andy McKay
